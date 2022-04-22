@@ -1,0 +1,9 @@
+# github.com/containernetworking/cni v1.0.1
+## explicit
+github.com/containernetworking/cni/pkg/types
+# github.com/gorilla/websocket v1.5.0
+## explicit
+github.com/gorilla/websocket
+# golang.org/x/net v0.0.0-20220421235706-1d1ef9303861
+## explicit
+golang.org/x/net/websocket
