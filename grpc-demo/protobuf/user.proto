@@ -1,0 +1,30 @@
+// 定义proto语法版本，这里指定使用proto3版本
+syntax = "proto3";
+
+// 这里随便定义个包名
+package grpc.user;
+
+// go 需要增加这个选项，否则会报错；
+// 值用分号分隔，前者表示生成 *.pb.go 文件所在的目录，会自动创建，这里指定当前目录中的 protobuf 目录；
+// 后者表示生成 go 文件里的包名，最好和目录名一致否则无法使用到。
+option go_package = "./protobuf;protobuf";
+
+// 定义服务，可以有多个方法
+service UserService {
+  // 使用rpc开头标识方法
+  rpc Login(LoginRequest) returns (LoginResponse) {};
+}
+
+// 定义请求信息
+message LoginRequest {
+  // 参数类型 参数名称 标识号
+  string username = 1;
+  string password = 2;
+}
+
+// 定义响应信息
+message LoginResponse {
+  // 参数类型 参数名称 标识号
+  int32 code = 1;
+  string message = 2;
+}
