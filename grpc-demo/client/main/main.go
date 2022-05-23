@@ -1,7 +1,7 @@
 package main
 
 import (
-	"GolandCode/grpc-demo/auth"
+	"GolandCode/grpc-demo/client/auth"
 	"GolandCode/grpc-demo/protobuf"
 	"context"
 	"fmt"
