@@ -5,14 +5,10 @@ import (
 	"context"
 )
 
-type UserService interface {
-	Login(ctx context.Context, req *protobuf.LoginRequest) (*protobuf.LoginResponse, error)
-}
-
 type userService struct {
 }
 
-func NewUserService() UserService {
+func NewUserService() *userService {
 	return &userService{}
 }
 
