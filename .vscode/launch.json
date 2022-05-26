@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "bn/bn-web/http-dynamic-router/main.go"
+            "program": "bn/bn-web/http-template/main.go"
         }
     ]
 }
