@@ -1,0 +1,66 @@
+package cache
+
+import (
+	"fmt"
+	"log"
+	"reflect"
+	"testing"
+)
+
+var db = map[string]string{
+	"Tom":  "630",
+	"Jack": "589",
+	"Sam":  "567",
+}
+
+func TestGetter(t *testing.T) {
+	var f Getter = GetterFunc(func(key string) ([]byte, error) {
+		return []byte(key), nil
+	})
+
+	expect := []byte("key")
+	if v, _ := f.Get("key"); !reflect.DeepEqual(v, expect) {
+		t.Fatal("callback failed")
+	}
+}
+
+func TestGet(t *testing.T) {
+	loadCounts := make(map[string]int, len(db))
+	gee := NewGroup("scores", GetterFunc(
+		func(key string) ([]byte, error) {
+			log.Println("[SlowDB] search key", key)
+			if v, ok := db[key]; ok {
+				if _, ok := loadCounts[key]; !ok {
+					loadCounts[key] = 0
+				}
+				loadCounts[key]++
+				return []byte(v), nil
+			}
+			return nil, fmt.Errorf("%s not exist", key)
+		}), 2<<10)
+
+	for k, v := range db {
+		if view, err := gee.get(k); err != nil || view.String() != v {
+			t.Fatal("failed to get value of Tom")
+		}
+		if _, err := gee.get(k); err != nil || loadCounts[k] > 1 {
+			t.Fatalf("cache %s miss", k)
+		}
+	}
+	if view, err := gee.get("unknown"); err == nil {
+		t.Fatalf("the value of unknow should be empty, but %s got", view)
+	}
+}
+
+func TestGetGroup(t *testing.T) {
+	groupName := "scores"
+	if group := NewGroup(groupName, func(key string) ([]byte, error) {
+		return nil, fmt.Errorf("cache un hint, callback")
+	}, 2<<10); group == nil || group.name != groupName {
+		t.Fatalf("new group is error, group %s is not exist", group.name)
+	}
+	if group := GetGroup(groupName + "111"); group != nil {
+		t.Fatalf("except ni , but group %s is  exist", group.name)
+	}
+
+}
