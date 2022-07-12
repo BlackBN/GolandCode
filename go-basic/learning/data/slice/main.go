@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"unsafe"
 )
@@ -60,6 +61,13 @@ func main() {
 	}
 	fmt.Printf("%p\n", &user)
 	printStruct(&user)
+
+	var testS []string = make([]string, 0)
+	var testX []string
+	testB, _ := json.Marshal(testS)
+	testC, _ := json.Marshal(testX)
+	fmt.Printf("%s\n", testB)
+	fmt.Printf("%s\n", testC)
 }
 
 type User struct {
