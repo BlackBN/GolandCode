@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strings"
 )
 
 // func main() {
@@ -107,7 +108,7 @@ func main() {
 	// rmdir[0]()
 	fmt.Println(threeSum([]int{1, 2, 3, 4, 4, 45, 5, 5, 5, 5, 55, 9}))
 	fmt.Println(lengthOfLongestSubstring("dvdf"))
-
+	fmt.Println(convert("PAYPALISHIRING", 3))
 }
 
 // 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
@@ -129,7 +130,7 @@ func main() {
 // 输入：nums = [0]
 // 输出：[]
 
-//暴力输出
+//三数之和 暴力输出
 func threeSum(nums []int) [][]int {
 	threeMap := make(map[[3]int]bool)
 	result := make([][]int, 0)
@@ -156,7 +157,7 @@ func threeSum(nums []int) [][]int {
 	return result
 }
 
-//
+//三数之和
 func threeSum2(nums []int) [][]int {
 	threeMap := make(map[[3]int]bool)
 	result := make([][]int, 0)
@@ -202,6 +203,7 @@ func sortThree(a, b, c int) [3]int {
 	return [3]int{a, b, c}
 }
 
+//最长子字符串
 func lengthOfLongestSubstring(s string) int {
 	var maxLen int
 	hashSet := make(map[uint8]bool)
@@ -223,6 +225,37 @@ func lengthOfLongestSubstring(s string) int {
 		}
 	}
 	return maxLen
+}
+
+// Z字变换
+func convert(s string, numRows int) string {
+	if numRows == 1 {
+		return s
+	}
+	space := make([][]byte, numRows)
+	x := 0
+	isAdd := false
+	for i := 0; i < len(s); i++ {
+		space[x] = append(space[x], s[i])
+		if x == (numRows-1) || x == 0 {
+			isAdd = !isAdd
+		}
+		if isAdd {
+			x++
+		} else {
+			x--
+		}
+	}
+	var builder strings.Builder
+	for _, innerSpace := range space {
+		for _, value := range innerSpace {
+			s := int(value)
+			if s != 0 {
+				builder.WriteString(string(s))
+			}
+		}
+	}
+	return builder.String()
 }
 
 // func squares() func() int {
