@@ -7,6 +7,12 @@ import (
 )
 
 func main() {
+	var a []string
+	a = nil
+	if len(a) == 0 {
+		fmt.Println("len a is zero")
+	}
+
 	sliceA := make([]int, 4, 10)
 	sliceA[2] = 5
 	fmt.Println(sliceA)

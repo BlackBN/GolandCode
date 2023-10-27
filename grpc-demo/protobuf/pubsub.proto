@@ -1,0 +1,16 @@
+// 定义proto语法版本，这里指定使用proto3版本
+syntax = "proto3";
+option go_package = "./protobuf;protobuf";
+
+// 这里随便定义个包名
+package grpc.pubsub;
+// 定义服务，可以有多个方法
+service PubSubService {
+  // 使用rpc开头标识方法
+  rpc Publish(String) returns (String);
+  rpc Subscibe(String) returns (stream String);
+}
+
+message String {
+    string value = 1;
+}
